@@ -26,13 +26,27 @@ export const celciusToTempCode = (temperature: number): string => {
   return hexCode.split('x')[1].toUpperCase() + 'H';
 };
 
-export const tempCodeToCelsius = (code: string): number => {
+export const tempCodeToCelsius = (code: string, region = 'EU') : number => {
+  const rangeMap = {
+    'CA': {
+      start: 16,
+      end: 32
+    },
+    'EU': {
+      start: 14,
+      end: 30
+    }
+  };
+
   // get first part
   const hexTempIndex = code[0];
+  // console.log('index', hexTempIndex)
 
+  const { start, end } = rangeMap[region];
   // create a range
-  const tempRange = floatRange(14, 30, 0.5);
+  const tempRange = floatRange(start, end, 0.5);
 
+  // console.log(tempRange, "len", tempRange.length)
   // get the index
   const tempIndex = parseInt(hexTempIndex, 16);
 
