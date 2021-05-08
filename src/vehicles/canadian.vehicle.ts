@@ -199,7 +199,17 @@ export default class CanadianVehicle extends Vehicle {
 
   // TODO: @Seb to take a look at doing this
   public odometer(): Promise<VehicleOdometer | null> {
-    throw new Error('Method not implemented.');
+    logger.debug('Begin odometer request');
+    try {
+      //const preAuth = await this.getPreAuth();
+      const response = await this.request(this.controller.environment.endpoints.odometer, {});
+      this._odometer = response.result as Odometer;
+      return this._odometer;
+    } catch (err) {
+      throw 'error: ' + err;
+    }
+
+//    throw new Error('Method not implemented.');
   }
 
   public async location(): Promise<VehicleLocation> {
